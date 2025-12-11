@@ -35,7 +35,4 @@ public class Auto {
     @Column(name = "auto_cavalli")
     private Integer cavalli;
 
-    @OneToOne(mappedBy = "auto", fetch = FetchType.EAGER)
-    private Vendita vendita;
-
 }

@@ -1,10 +1,7 @@
 package com.luca.engineer.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Table(name = "vendite")
+@ToString
 public class Vendita {
 
     @Id
@@ -25,10 +23,13 @@ public class Vendita {
     private String nominativoCliente;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ven_auto_id", nullable = false)
+    @JoinColumn(name = "ven_auto_id")
     private Auto auto;
 
     @Column(name = "ven_data_acquisto", nullable = false)
     private LocalDate dataAcquisto;
+
+    @Column(name = "ven_prezzo", nullable = false)
+    private Float prezzo;
 
 }
