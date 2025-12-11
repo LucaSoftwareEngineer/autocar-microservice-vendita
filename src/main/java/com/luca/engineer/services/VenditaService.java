@@ -59,7 +59,10 @@ public class VenditaService {
             vendita.setNominativoCliente(json.getNominativoCliente());
             vendita.setAuto(auto);
 
+            auto.setVenduta(true);
+
             vendita = venditaRepository.save(vendita);
+            autoRepository.save(auto);
 
             RegistraVenditaResponse res = modelMapper.map(vendita, RegistraVenditaResponse.class);
             return res;
