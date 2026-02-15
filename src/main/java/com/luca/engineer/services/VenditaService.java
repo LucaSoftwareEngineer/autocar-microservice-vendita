@@ -1,5 +1,6 @@
 package com.luca.engineer.services;
 
+import com.luca.engineer.client.AutocarMicroserviceAuthClient;
 import com.luca.engineer.dto.RegistraVenditaRequest;
 import com.luca.engineer.dto.RegistraVenditaResponse;
 import com.luca.engineer.dto.TokenCheckResponse;
@@ -22,27 +23,14 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class VenditaService {
 
-    @Value("${autocar.microservice.auth.token.check}")
-    private String tockenCheck;
-
+	private final AutocarMicroserviceAuthClient authClient;
     private final VenditaRepository venditaRepository;
     private final AutoRepository autoRepository;
     private final RestTemplate restTemplate;
     private final ModelMapper modelMapper;
 
     public Boolean checkToken(String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.set("Authorization", token);
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<TokenCheckResponse> response = restTemplate.exchange(
-                tockenCheck,
-                HttpMethod.POST,
-                entity,
-                TokenCheckResponse.class
-        );
-
+        ResponseEntity<TokenCheckResponse> response = authClient.tokenCheck(token);
         return response.getBody().isValido();
     }
 
